@@ -7,7 +7,7 @@
  * @license MIT License
  */
 
-namespace IconButton\tests;
+namespace IconButton\Tests;
 
 use IconButton\IconButtonTypeExtension;
 use Symfony\Bridge\Twig\Extension\FormExtension;

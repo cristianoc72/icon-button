@@ -1,4 +1,5 @@
 # Icon-button #
+[![Build Status](https://travis-ci.org/cristianoc72/icon-button.svg?branch=master)](https://travis-ci.org/cristianoc72/icon-button)
 
 Icon-button is an extension for Symfony Form button and submit types.
 You can easily add an icon to your buttons, after or before the label.
