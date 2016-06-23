@@ -1,0 +1,30 @@
+{% use "bootstrap_3_layout.html.twig" %}
+
+{% block button_widget -%}
+    {%- if label is empty -%}
+        {%- if label_format is not empty -%}
+            {% set label = label_format|replace({
+            '%name%': name,
+            '%id%': id,
+            }) %}
+        {%- else -%}
+            {% set label = name|humanize %}
+        {%- endif -%}
+    {%- endif -%}
+<button type="{{ type|default('button') }}" {{ block('button_attributes') }}>
+    {% if icon is null %}
+        {% if name == 'previous_step' %}
+            {% set icon = 'glyphicon-step-backward' %}{% set icon_position = 0 %}
+        {% elseif name == 'next_step' %}
+            {% set icon = 'glyphicon-step-forward' %}{% set icon_position = 1 %}
+        {% endif %}
+    {% endif %}
+    {% if icon is not null %}
+        {% if icon_position is same as(1) %}{{ label|trans({}, translation_domain) }}{% endif %}
+<span class="glyphicon {{ icon }}"></span>
+        {% if icon_position is same as(0) %}{{ label|trans({}, translation_domain) }}{% endif %}
+    {% else %}
+        {{ label|trans({}, translation_domain) }}
+    {% endif %}
+</button>
+{%- endblock button_widget %}
