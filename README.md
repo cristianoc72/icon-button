@@ -41,7 +41,7 @@ Register the extension as a service:
      app.icon_button_type_extension:
      	class: cristianoc72\IconButtonTypeExtension
 	 	tags:
-			- { name: form.type_extension, alias: button }
+			- { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\ButtonType }
 			
 ```
  
@@ -55,8 +55,10 @@ You can display your icon before or after the button label, by setting `icon-pos
 
 ```php
 <?php
+	use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+	............
 
-    $form->add('save', 'submit', ['icon' => 'glyphicon-floppy-save', 'icon_position' => 'after']);
+    $form->add('save', SubmitType::class, ['icon' => 'glyphicon-floppy-save', 'icon_position' => 'after']);
 ```
 And this is the result:
 
@@ -67,7 +69,7 @@ If you prefer the icon before the label:
 ```php
 <?php
 
-    $form->add('save', 'submit', ['icon' => 'glyphicon-floppy-save', 'icon_position' => 'before']);
+    $form->add('save', SubmitType::class, ['icon' => 'glyphicon-floppy-save', 'icon_position' => 'before']);
 ```
 And the result is the following:
 
@@ -76,16 +78,16 @@ And the result is the following:
 When you're working on a multi step form wizard, you always define a *previous step* button and a *next step* button.
 When you add a button named `previous_step` or `next_step` to your form, this extension automatically adds an icon as follow:
 
-- ** previous_step **: `icon` is set to `glyphicon-step-backward` and `icon_position` is set to `before`
-- ** next_step **: `icon` is set to `glyphicon-step-forward` and `icon_position` is set to `after`
+- **previous_step**: `icon` is set to `glyphicon-step-backward` and `icon_position` is set to `before`
+- **next_step**: `icon` is set to `glyphicon-step-forward` and `icon_position` is set to `after`
 
 So that, if you're satisfied of the default icons, you can simply write:
 
 ```php
 <?php
 
-    $form->add('previous_step', 'submit');
-    $form->add('next_step', 'submit');
+    $form->add('previous_step', SubmitType::class);
+    $form->add('next_step', SubmitType::class);
 ```
 
 And this is the resulting buttons:
@@ -96,10 +98,14 @@ If you need a `reset` button too, it's put between previous and next buttons:
 
 ```php
 <?php
+	use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+	use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+	use Symfony\Component\Form\Extension\Core\Type\ResetType;
+	..............
 
-    $form->add('previous_step', 'submit');
-    $form->add('next_step', 'submit');
-    $form->add('reset', 'reset');
+    $form->add('previous_step', SubmitType::class);
+	$form->add('reset', ResetType::class);
+    $form->add('next_step', SubmitType::class);
 ```
 
 And here it is:
