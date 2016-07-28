@@ -16,33 +16,55 @@ By now, only [Bootstrap Glyphicons](http://getbootstrap.com/components) are supp
  
 ### Working with Silex ###
  
-Be sure you've enabled `FormServiceProvider`  and all its dependencies. See http://silex.sensiolabs.org/doc/providers/form.html.
+Be sure you've enabled `TwigServiceProvider` and `FormServiceProvider` and all its dependencies. See http://silex.sensiolabs.org/doc/providers/form.html.
  
 Then register the extension in your Application:
  
 ```php
  <?php
  
- $app['form.type.extensions'] = $app->share(
- 	$app->extend('form.type.extensions',  function ($extensions) use ($app) {
-    	   $extensions[] = new cristianoc72\IconButtonTypeExtension();
+ //Tell Twig where icon-button theme is
+ $app->register(new \Silex\Provider\TwigServiceProvider(), [
+     'twig.path' => [__DIR__ . '/your/application/templates', __DIR__ . '/../vendor/cristianoc72/icon-button/resources/template'],
+     'twig.form.templates' => ['your_application_form_layout.html.twig', 'icon_button.html.twig']
+ ]);
+ 
+ //then register the extension
+ $app->extend('form.type.extensions',  function ($extensions) use ($app) {
+        $extensions[] = new cristianoc72\IconButton\IconButtonTypeExtension();
 
-       return $extensions;
+        return $extensions;
     })
  );
 ```
+and tell Twig about the icon-button template;
  
 ### Working with Symfony ###
  
 Register the extension as a service:
  
 ```yaml
- services:
-     app.icon_button_type_extension:
-     	class: cristianoc72\IconButtonTypeExtension
-	 	tags:
-			- { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\ButtonType }
-			
+# app/config/config.yml
+
+services:
+    .....
+       
+    app.icon_button_type_extension:
+        class: cristianoc72\IconButton\IconButtonTypeExtension
+        tags:
+          - { name: form.type_extension, extended_type: 
+          Symfony\Component\Form\Extension\Core\Type\ButtonType }		
+
+twig:
+    ...
+    
+    paths:
+        "%kernel.root_dir%/../vendor/cristianoc72/icon-button/resource/template"
+
+    form_themes:
+        - ........
+        
+        - icon_button.html.twig
 ```
  
 ## Usage ##
@@ -55,10 +77,8 @@ You can display your icon before or after the button label, by setting `icon-pos
 
 ```php
 <?php
-	use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-	............
 
-    $form->add('save', SubmitType::class, ['icon' => 'glyphicon-floppy-save', 'icon_position' => 'after']);
+    $form->add('save', 'submit', ['icon' => 'glyphicon-floppy-save', 'icon_position' => 'after']);
 ```
 And this is the result:
 
@@ -69,7 +89,7 @@ If you prefer the icon before the label:
 ```php
 <?php
 
-    $form->add('save', SubmitType::class, ['icon' => 'glyphicon-floppy-save', 'icon_position' => 'before']);
+    $form->add('save', 'submit', ['icon' => 'glyphicon-floppy-save', 'icon_position' => 'before']);
 ```
 And the result is the following:
 
@@ -78,16 +98,16 @@ And the result is the following:
 When you're working on a multi step form wizard, you always define a *previous step* button and a *next step* button.
 When you add a button named `previous_step` or `next_step` to your form, this extension automatically adds an icon as follow:
 
-- **previous_step**: `icon` is set to `glyphicon-step-backward` and `icon_position` is set to `before`
-- **next_step**: `icon` is set to `glyphicon-step-forward` and `icon_position` is set to `after`
+- ** previous_step **: `icon` is set to `glyphicon-step-backward` and `icon_position` is set to `before`
+- ** next_step **: `icon` is set to `glyphicon-step-forward` and `icon_position` is set to `after`
 
 So that, if you're satisfied of the default icons, you can simply write:
 
 ```php
 <?php
 
-    $form->add('previous_step', SubmitType::class);
-    $form->add('next_step', SubmitType::class);
+    $form->add('previous_step', 'submit');
+    $form->add('next_step', 'submit');
 ```
 
 And this is the resulting buttons:
@@ -98,14 +118,10 @@ If you need a `reset` button too, it's put between previous and next buttons:
 
 ```php
 <?php
-	use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-	use Symfony\Component\Form\Extension\Core\Type\ButtonType;
-	use Symfony\Component\Form\Extension\Core\Type\ResetType;
-	..............
 
-    $form->add('previous_step', SubmitType::class);
-	$form->add('reset', ResetType::class);
-    $form->add('next_step', SubmitType::class);
+    $form->add('previous_step', 'submit');
+    $form->add('next_step', 'submit');
+    $form->add('reset', 'reset');
 ```
 
 And here it is:
