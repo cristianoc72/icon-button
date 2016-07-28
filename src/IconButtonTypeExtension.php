@@ -7,7 +7,7 @@
  * @license MIT License
  */
 
-namespace IconButton;
+namespace cristianoc72\IconButton;
 
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;

@@ -7,7 +7,7 @@
  * @license MIT License
  */
 
-namespace IconButton\Tests;
+namespace cristianoc72\IconButton\Tests;
 
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

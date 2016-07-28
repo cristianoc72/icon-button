@@ -23,12 +23,12 @@
   },
   "autoload": {
     "psr-4": {
-      "IconButton\\": "src"
+      "cristianoc72\\IconButton\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "IconButton\\Tests\\": "tests"
+      "cristianoc72\\IconButton\\Tests\\": "tests"
     }
   }
 }
